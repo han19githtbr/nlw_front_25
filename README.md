@@ -32,3 +32,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## create an empty project in nextjs
+
+npx create-next-app@latest --empty
+
+## install libraries
+
+npm i lucide-react
+
+## o biome formata o código de uma maneira automatizada e integrada com o Vs Code
+
+npm i @biomejs/biome -D
+
+npx @biomejs/biome init
+
+npm i tailwind-merge
+
+npm i react-hook-form
+
+## No next, todo componente é um server componente
+
+## Ou seja, o javascript necessário para esse componente funcionar não é enviado para o navegador
+
+## faz a integração do react-hook-form com as bibliotecas de validação
+
+npm i zod @hookform/resolvers
+
+## instalar orval
+npm i orval -D
