@@ -3,7 +3,7 @@ import logo from "../../../assets/logo.svg"
 import { InviteLinkInput } from "./invite-link-input"
 import { Ranking } from "./ranking"
 import { Stats } from "./stats"
-
+import { CheckCircle } from "lucide-react"
 
 interface InvitePageProps {
   params: Promise<{
@@ -15,7 +15,7 @@ interface InvitePageProps {
 export default async function InvitePage(props: InvitePageProps) {
 
   const { subscriberId } = await props.params
-
+  
   const inviteLink = `http://localhost:3333/invites/${subscriberId}`
 
   return (
@@ -24,8 +24,12 @@ export default async function InvitePage(props: InvitePageProps) {
         <Image src={logo} alt="devstage" width={108.5} height={30} />
 
         <div className="space-y-2">
-          <h1 className="text-4xl font-semibold font-heading text-gray-100 leading-none">
-            Inscrição confirmada
+          <h1 className="font-semibold font-heading text-gray-100 leading-none">
+            <span className="flex items-center gap-2 text-green font-bold text-4xl">
+              <span className="animate-pulse">Inscrição confirmada</span>
+              <CheckCircle size={30}/>
+            </span>
+                  
           </h1>
           <p className="text-gray-300">
             Para entrar no evento, acesse o link enviado para seu e-mail.

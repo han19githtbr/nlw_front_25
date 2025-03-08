@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react'
 import { Button } from "@/components/button"
 import { InputField, InputIcon, InputRoot } from "@/components/input"
 import { subscribeToEvent } from "@/http/api"
@@ -8,6 +9,9 @@ import { ArrowRight, Mail, User } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+//import { LoadingDots } from '@/components/ColorSpinner'
+import { ColorSpinner } from '@/components/ColorSpinner' 
+
 
 const subscriptionSchema = z.object({
   name: z.string().min(2, "Digite seu nome completo"),
@@ -29,12 +33,20 @@ export function SubscriptionForm() {
     resolver: zodResolver(subscriptionSchema),
   })
 
+  const [isLoading, setIsLoading] = useState(false)
+
   async function onSubscribe({ name, email }: SubscriptionSchema) {
-    const referrer = searchParams.get('referrer')
-    
-    const { subscriberId } = await subscribeToEvent({ name, email, referrer })
-    
-    router.push(`/invite/${subscriberId}`)
+    setIsLoading(true)
+
+    try {
+      const referrer = searchParams.get('referrer')
+      const { subscriberId } = await subscribeToEvent({ name, email, referrer })
+      router.push(`/invite/${subscriberId}`)
+    } catch (error) {
+      // Lidar com erros, se necessário
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -43,7 +55,7 @@ export function SubscriptionForm() {
       className="bg-gray-700 border border-gray-600 rounded-2xl p-8 space-y-6 w-full md:max-w-[440px]"
     >
       <h2 className="font-heading font-semibold text-gray-200 text-xl">
-        Inscrição
+        Inscreva-se aqui
       </h2>
 
       <div className="space-y-3">
@@ -86,10 +98,19 @@ export function SubscriptionForm() {
         </div>
       </div>
 
-      <Button type="submit">
-        Confirmar
-        <ArrowRight />
-      </Button>
+      <div className="flex flex-col items-center">
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
+            'Confirmando...'
+          ) : (
+            <>
+              Confirmar
+              <ArrowRight />
+            </>
+          )}
+        </Button>
+        {isLoading && <ColorSpinner className="mt-2" />} {/* Renderiza o ColorSpinner */}
+      </div>
     </form>
   )
 }

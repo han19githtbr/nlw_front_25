@@ -65,3 +65,5 @@ npm i orval -D
 ## executar o ngrok no terminal do back-end
 
 ngrok http http://localhost:3333
+
+## O comando docker-compose up -d é usado para iniciar e executar aplicações de múltiplos contêineres definidas em um arquivo docker-compose.yml. Vamos detalhar cada parte do comando

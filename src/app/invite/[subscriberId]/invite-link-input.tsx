@@ -13,8 +13,8 @@ export function InviteLinkInput({ inviteLink }: InviteLinkInputProps) {
   const [showSucessMessage, setShowSucessMessage] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
   const messageRef = useRef<HTMLDivElement>(null)
-  const [messagePosition, setMessagePosition] = useState({ top: 0, left: 0 })
-
+  const placeholderRef = useRef<HTMLDivElement>(null) // Adicionando ref para o placeholder
+  
   function copyInviteLink() {
     navigator.clipboard.writeText(inviteLink)
     setShowSucessMessage(true)
@@ -24,28 +24,30 @@ export function InviteLinkInput({ inviteLink }: InviteLinkInputProps) {
   }
 
   useEffect(() => {
-    if (showSucessMessage && inputRef.current && messageRef.current) {
-      const inputRect = inputRef.current.getBoundingClientRect()
-      const messageRect = messageRef.current.getBoundingClientRect()
-      const parentRect = inputRef.current.parentElement?.getBoundingClientRect() // Obtendo o elemento pai
+    if (showSucessMessage && placeholderRef.current && messageRef.current) {
+      const placeholderRect = placeholderRef.current.getBoundingClientRect()
+      const parentRect = placeholderRef.current.parentElement?.getBoundingClientRect()
 
       if (parentRect) {
         setMessagePosition({
-          top: inputRect.top - parentRect.top - messageRect.height -24, // Ajustando o top
-          left: inputRect.left - parentRect.left, // Ajustando o left
+          top: placeholderRect.top - parentRect.top,
+          left: placeholderRect.left - parentRect.left,
         })
       }
     }
   }, [showSucessMessage])
 
+  const [messagePosition, setMessagePosition] = useState({ top: -30, left: 160 })
+
 
   return (
     <div ref={inputRef} style={{ position: "relative" }}>
+      
       <InputRoot>
         <InputIcon>
           <Link className="size-5" />
         </InputIcon>
-
+        
         <InputField readOnly defaultValue={inviteLink} />
 
         <IconButton className="-mr-2" onClick={copyInviteLink}>
@@ -53,6 +55,7 @@ export function InviteLinkInput({ inviteLink }: InviteLinkInputProps) {
         </IconButton>
       </InputRoot>
 
+      
       {showSucessMessage && (
         <div
           ref={messageRef}
@@ -62,10 +65,11 @@ export function InviteLinkInput({ inviteLink }: InviteLinkInputProps) {
             left: messagePosition.left,
             backgroundColor: "#dcfce7", // Cor de fundo verde claro
             color: "#166534", // Cor do texto verde escuro
-            padding: "2px 20px",
+            padding: "2px 16px",
             borderRadius: "4px",
             fontSize: "14px",
             zIndex: 10, // Garante que a mensagem fique sobre outros elementos
+            whiteSpace: "nowrap",
           }}
         >
           Link copiado com sucesso!
