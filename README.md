@@ -61,3 +61,7 @@ npm i zod @hookform/resolvers
 
 ## instalar orval
 npm i orval -D
+
+## executar o ngrok no terminal do back-end
+
+ngrok http http://localhost:3333
